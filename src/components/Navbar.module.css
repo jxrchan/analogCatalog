@@ -1,0 +1,42 @@
+.navbar {
+    height: 13rem;
+    background-color: salmon;
+  }
+  
+  .navbar nav {
+    height: 100%;
+  }
+
+  .navbar img {
+    height: 300px;
+    width: auto;
+
+  }
+  
+  .navbar ul {
+    height: 100%;
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .navbar li {
+    margin: 0 1rem;
+    width: 10rem;
+  }
+  
+  .navbar a {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .navbar a:hover,
+  .navbar a:active,
+  .navbar a.active {
+    color: whitesmoke;
+    padding-bottom: 0.25rem;
+    border-bottom: 4px solid whitesmoke;
+  }
