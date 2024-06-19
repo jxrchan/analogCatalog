@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Main.module.css";
 
-const Main = () => {
+const Main = (props) => {
   const formats = [
     '7"',
     '10"',
@@ -37,6 +37,7 @@ const Main = () => {
     getSearch();
   };
 
+  //Fetch Search Results from Discogs
   const getSearch = async () => {
     try {
       const res = await fetch(
@@ -63,7 +64,70 @@ const Main = () => {
     }
   };
 
-  useEffect(() => {}, []);
+  //Store Collection data into AirTable
+  const storeCollection = async (id) => {
+    try {
+      const res = await fetch(
+        `https://api.airtable.com/v0/appEabajOfGZiNdWm/Table%201`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_TOKEN}`,
+          },
+          body: JSON.stringify({
+            fields: {
+              username: props.username,
+              type: "collection",
+              release_id: id.toString(),
+            },
+          }),
+        }
+      );
+
+      console.log(res);
+      if (!res.ok) {
+        throw new Error("error posting data");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  
+  //Store Wishlist data into AirTable
+
+  const storeWishlist = async (id) => {
+    try {
+      const res = await fetch(
+        `https://api.airtable.com/v0/appEabajOfGZiNdWm/Table%201`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_TOKEN}`,
+          },
+          body: JSON.stringify({
+            records: [
+              {
+                fields: {
+                  username: props.username,
+                  type: "wishlist",
+                  release_id: id.toString(),
+                },
+              },
+            ],
+          }),
+        }
+      );
+      if (!res.ok) {
+        throw new Error("error posting data");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
 
   return (
     <>
@@ -113,21 +177,21 @@ const Main = () => {
                 <div className={styles.buttons}>
                   <button
                     className={styles.button}
-                    onClick={() => addToWishlist(item.id)}
+                    onClick={() => storeWishlist(item.id)}
                   >
                     Add to Wishlist
                   </button>
                   <button
                     className={styles.button}
-                    onClick={() => addToCollection(item.id)}
+                    onClick={() => storeCollection(item.id)}
                   >
                     Add to Collection
                   </button>
-                </div>
-                {item.artist} <br />
-                {item.title} <br />
-                {item.genre.toString()} <br />
-                {item.year} <br />
+                </div> 
+                {item.title} <br /> 
+                {item.genre.join(', ')} <br/>
+                {item.format} <br/> <br/>
+                <em> Released: {item.year} </em> <br />
               </div>
             </>
           );

@@ -1,0 +1,40 @@
+.collection {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+}
+
+.collection p {
+    text-align: center; 
+    font-size: 24px; 
+}
+
+.collection table {
+    width: 90%;
+}
+
+
+.wishlist {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+}
+
+.wishlist table {
+    width: 90%; 
+
+}

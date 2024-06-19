@@ -5,9 +5,10 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    max-width: 600px;
-    margin: 0 auto;
+    max-width: 1000px;
+    margin: 20px auto;
     background-color: #f9f9f9;
+    font-size: 18px;
   }
   
   .form label {
@@ -64,6 +65,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    font-family: "Ubuntu", sans-serif;
+    font-size: 16px; 
   }
   
   .resultItem {
@@ -74,6 +77,7 @@
     border: 1px solid #ccc;
     border-radius: 8px;
     background-color: #fff;
+    font-family: "Ubuntu", sans-serif;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -85,6 +89,7 @@
     display: block;
     margin: 0 auto 10px;
     transition: transform 0.3s ease;
+    border-radius: 6px;
   }
   
   .resultItem:hover .coverImage {

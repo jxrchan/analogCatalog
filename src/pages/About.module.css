@@ -1,0 +1,25 @@
+.about {
+    font-size: 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+}
+
+.about img {
+    max-width: 30%;
+    height: auto;
+    margin: 20px; 
+}
+
+.credits {
+    text-transform: uppercase;
+    font-weight: bold; 
+    color: red; 
+}
+
