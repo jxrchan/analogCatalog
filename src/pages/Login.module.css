@@ -3,5 +3,35 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    font-size: 20px;
    flex-direction: column;
+}
+
+.login p { 
+    font-family:"Rajdhani", sans-serif;
+    font-size: 3em;
+}
+
+.login img {
+    width: 400px;
+    height: auto;
+}
+
+.login label {
+    font-size: 20px;
+    font-family: "Ubuntu", sans-serif;
+    margin: 10px; 
+}
+
+.login input {
+    margin: 10px 
+}
+
+.login button {
+    font-family: "Ubuntu", sans-serif;
+}
+
+.login button:hover {
+    color: white;
+    background-color: #45a049;
 }

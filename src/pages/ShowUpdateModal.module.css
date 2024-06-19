@@ -1,0 +1,48 @@
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal {
+  position: fixed;
+  background: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  padding: 20px;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  border-radius: 8px;
+}
+
+.header {
+  text-align: center;
+  font-size: 1.5em;
+  color: forestgreen;
+  margin-bottom: 20px;
+}
+
+.row {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.col {
+  flex: 1;
+  padding: 0 10px;
+}
+
+.update:hover {
+  background-color: #45a049;
+}
+
+.cancel:hover {
+  background-color: red;
+}

@@ -1,5 +1,6 @@
 .collection {
-    font-size: 12px;
+    font-size: 15px;
+    font-family: "Ubuntu", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -9,18 +10,21 @@
     max-width: 1200px;
     margin: 20px auto;
     background-color: #f9f9f9;
-    height: 600px; 
+    height: 700px; 
     overflow-y: scroll;
+    box-shadow: 5px 5px gray;
 }
 
-.p {
+.collection p {
+    font-family: "Rajdhani", sans-serif;
     text-align: center; 
-    font-size: 24px; 
+    font-size: 30px; 
 }
 
 
 .wishlist {
-    font-size: 12px;
+    font-size: 15px;
+    font-family: "Ubuntu", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -30,8 +34,15 @@
     max-width: 1200px;
     margin: 20px auto;
     background-color: #f9f9f9;
-    height: 600px;
+    height: 700px;
     overflow-y: scroll;
+    box-shadow: 5px 5px olivedrab;
+}
+
+.wishlist p {
+  font-family: "Rajdhani", sans-serif;
+  text-align: center; 
+  font-size: 30px; 
 }
 
 table {
@@ -79,14 +90,6 @@ table {
     cursor: pointer;
     border-radius: 4px;
   }
-  
-  .notesCell {
-  }
-  .numberCell {
-
-  }
-  .buttonCell
-  {}
   
 .more:hover {
     background-color: blue;

@@ -1,25 +1,27 @@
 .about {
-    font-size: 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    max-width: 800px;
-    margin: 20px auto;
-    background-color: #f9f9f9;
+  display: flex;
+  font-size: 24px;
+  font-family: "Ubuntu";
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  max-width: 1000px;
+  margin: 20px auto;
+  background-color: #f9f9f9;
 }
 
 .about img {
-    max-width: 30%;
-    height: auto;
-    margin: 20px; 
+  max-width: 30%;
+  height: auto;
+  margin: 20px;
 }
 
 .credits {
-    text-transform: uppercase;
-    font-weight: bold; 
-    color: red; 
+  font-family: "Rajdhani";
+  text-transform: uppercase;
+  font-weight: 600;
+  color: red;
+  font-size: 36px;
 }
-

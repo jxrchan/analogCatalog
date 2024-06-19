@@ -132,7 +132,7 @@ const Main = (props) => {
   return (
 <>
       <div className={styles.form}>
-        <label> ARTIST </label>
+        <label> <b> ARTIST </b> </label>
         <input
           type="text"
           value={artist}
@@ -140,7 +140,7 @@ const Main = (props) => {
             setArtist(e.target.value);
           }}
         ></input>
-        <label> RECORD TITLE </label>
+        <label> <b> RECORD TITLE </b> </label>
         <input
           type="text"
           value={title}
@@ -148,7 +148,7 @@ const Main = (props) => {
             setTitle(e.target.value);
           }}
         ></input>
-        <label> FORMATS </label>
+        <label> <b>FORMATS</b> </label>
         <div className={styles["checkboxes"]}>
           {formats.map((item, idx) => {
             return (
@@ -177,48 +177,47 @@ const Main = (props) => {
                 <div className={styles.buttons}>
                   <button
                     className={styles.button}
-                    onClick={() => storeWishlist(item.id)}
-                  >
-                    Add to Wishlist
-                  </button>
-                  <button
-                    className={styles.button}
                     onClick={() => storeCollection(item.id)}
                   >
                     Add to Collection
                   </button>
+                  <button
+                    className={styles.button}
+                    onClick={() => storeWishlist(item.id)}
+                  >
+                    Add to Wishlist
+                  </button>
                 </div> 
-                {item.title} <br /> 
-                {item.genre.join(', ')} <br/>
-                {item.format} <br/> <br/>
+                {item.title} <br /> <br/>
+                {item.format.join(', ')} <br/> <br/>
                 <em> Released: {item.year} </em> <br />
               </div>
             </>
           );
-        })}
-        <div>
+        })} 
+      </div>}
+      <div style={{textAlign: "center", marginBottom: "40px"}}>
           {page !== 1 && (
-            <button
+            <a className={styles.link}
               onClick={() => {
                 setPage((prevState) => prevState - 1);
                 getSearch();
               }}
             >
               Previous
-            </button>
+            </a>
           )}
           {results.length > 0 && page !== lastPage && (
-            <button
+            <a className={styles.link}
               onClick={() => {
                 setPage((prevState) => prevState + 1);
                 getSearch();
               }}
             >
               Next
-            </button>
+            </a>
           )}
         </div>
-      </div>}
       </>
   );
 };

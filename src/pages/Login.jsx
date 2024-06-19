@@ -9,7 +9,8 @@ function Login(props) {
 
   return (
     <div className ={styles.login}>
-      <h2>Login Page</h2>
+      <img src="../../images/App-Logo.png" alt="Analog Catalog Logo"/>
+      <p> ANALOG CATALOG</p> 
       <label>
         Username:
         <input
@@ -21,14 +22,13 @@ function Login(props) {
         />
       </label>
       <br />
-      <br />
       <button
         onClick={() => {
           props.handleLogin(username);
           navigate("/main");
         }}
       >
-        Login
+        LOGIN
       </button>
     </div>
   );

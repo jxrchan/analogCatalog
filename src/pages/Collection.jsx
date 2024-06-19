@@ -1,14 +1,16 @@
 import React from "react";
 import styles from "./Collection.module.css";
-import ShowUpdate from "./ShowUpdate";
+import ShowUpdateModal from "./ShowUpdateModal";
 import { useState, useEffect } from "react";
 
 const Collection = (props) => {
   const [collection, setCollection] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
   const [collectionInfo, setCollectionInfo] = useState([]);
   const [wishlistInfo, setWishlistInfo] = useState([]);
-  const [showUpdate, setShowUpdate] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [recordId, setRecordId] = useState(0);
+  const [artist, setArtist] = useState("");
+  const [title, setTitle] = useState("");
 
   const getCollection = async () => {
     try {
@@ -55,7 +57,6 @@ const Collection = (props) => {
           item.fields.username === props.username &&
           item.fields.type === "wishlist"
       );
-      setWishlist(wishlistData);
       getWishlistDetails(wishlistData);
     } catch (error) {
       console.log(error);
@@ -103,7 +104,7 @@ const Collection = (props) => {
       const details = await getData(item.fields.release_id);
       //   const collectionFetch = {"id":item.id, "fields": details}
       const collectionFetch = {};
-      collectionFetch["release_id"] = item.id;
+      collectionFetch["id"] = item.id;
       collectionFetch["fields"] = details;
       tempArray.push(collectionFetch);
     }
@@ -117,7 +118,7 @@ const Collection = (props) => {
       const details = await getData(item.fields.release_id);
       //   const wishlistFetch = {"id":item.id, "fields": details}
       const wishlistFetch = {};
-      wishlistFetch["release_id"] = item.id;
+      wishlistFetch["id"] = item.id;
       wishlistFetch["fields"] = details;
       tempArray.push(wishlistFetch);
     }
@@ -132,22 +133,31 @@ const Collection = (props) => {
 
   return (
     <>
-    {showUpdate && <showUpdate getCollection={getCollection} getWishlist={getWishlist} setShowUpdate={setShowUpdate}/>}
+      {showUpdateModal && (
+        <ShowUpdateModal
+          artist={artist}
+          title={title}
+          id={recordId}
+          getCollection={getCollection}
+          getWishlist={getWishlist}
+          setShowUpdateModal={setShowUpdateModal}
+        />
+      )}
       <div className={styles.collection}>
-        <p> Collection </p>
+        <p> My Collection </p>
         <table>
           <thead>
             <tr>
-              <th style={{ width: "15%" }}> Artist </th>
-              <th style={{ width: "15%" }}> Title </th>
-              <th style={{ width: "7%" }}> Year </th>
-              <th style={{ width: "15%" }}> Genres </th>
-              <th style={{ width: "7%" }}> Purchase Price (USD) </th>
-              <th style={{ width: "7%" }}> Resale Price (USD) </th>
-              <th style={{ width: "20%" }}> Notes </th>
-              <th style={{ width: "7%" }}> </th>
-              <th style={{ width: "7%" }}> </th>
-              <th style={{ width: "7%" }}> </th>
+              <th style={{ width: "12%" }}> Artist </th>
+              <th style={{ width: "12%" }}> Title </th>
+              <th style={{ width: "8%" }}> Year </th>
+              <th style={{ width: "12%" }}> Genres </th>
+              <th style={{ width: "8%" }}> Resale Price (USD) </th>
+              <th style={{ width: "8%" }}> Purchase Price (USD)  </th>
+              <th style={{ width: "16%" }}> Notes </th>
+              <th style={{ width: "8%" }}> </th>
+              <th style={{ width: "8%" }}> </th>
+              <th style={{ width: "8%" }}> </th>
             </tr>
           </thead>
           <tbody>
@@ -158,20 +168,16 @@ const Collection = (props) => {
                   <td> {item.fields.title} </td>
                   <td> {item.fields.year} </td>
                   <td> {item.fields.genres.join(", ")} </td>
-                  <td>
-                    {() => {
-                      collection.filter((record) =>
-                        record.fields.release_id === item.release_id
-                          ? record.fields.purchase_price
-                          : ""
-                      );
-                    }}
-                  </td>
                   <td> {item.fields.lowest_price} </td>
                   <td>
                     {() => {
+                      çç
+                    }}
+                  </td>
+                  <td>
+                    {() => {
                       collection.filter((record) =>
-                        record.fields.release_id === item.release_id
+                        record.fields.release_id === item.fields.id
                           ? record.fields.notes
                           : ""
                       );
@@ -191,7 +197,10 @@ const Collection = (props) => {
                     <button
                       className={styles.update}
                       onClick={() => {
-                        setShowUpdate(true);
+                        setArtist(item.fields.artists[0].name);
+                        setTitle(item.fields.title);
+                        setRecordId(item.id);
+                        setShowUpdateModal(true);
                       }}
                     >
                       Update
@@ -214,7 +223,7 @@ const Collection = (props) => {
         </table>
       </div>
       <div className={styles.wishlist}>
-        <p> Wishlist </p>
+        <p> My Wishlist </p>
         <table>
           <thead>
             <tr>
@@ -236,8 +245,13 @@ const Collection = (props) => {
                   <td>{item.fields.year}</td>
                   <td>{item.fields.genres.join(", ")}</td>
                   <td>{item.fields.lowest_price}</td>
-                  <td><button className={styles.more}
-                      onClick={()=>{window.open(`${item.fields.uri}`)}}>
+                  <td>
+                    <button
+                      className={styles.more}
+                      onClick={() => {
+                        window.open(`${item.fields.uri}`);
+                      }}
+                    >
                       More
                     </button>
                   </td>
