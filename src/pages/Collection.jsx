@@ -6,10 +6,9 @@ import { useState, useEffect } from "react";
 const Collection = (props) => {
   const [collection, setCollection] = useState([]);
   const [wishlist, setWishlist] = useState([]);
+  const [collectionInfo, setCollectionInfo] = useState([]);
+  const [wishlistInfo, setWishlistInfo] = useState([]);
   const [showUpdate, setShowUpdate] = useState(false);
-  const [results, setResults] = useState([]);
-  const [purchasePrice, setPurchasePrice] = useState(0);
-  const [notes, setNotes] = useState("");
 
   const getCollection = async () => {
     try {
@@ -25,14 +24,13 @@ const Collection = (props) => {
         throw new Error("fetch error");
       }
       const data = await res.json();
-      setCollection(
-        data.records.filter(
-          (item) =>
-            item.fields.username === props.username &&
-            item.fields.type === "collection"
-        )
+      const collectionData = data.records.filter(
+        (item) =>
+          item.fields.username === props.username &&
+          item.fields.type === "collection"
       );
-      console.log(collection);
+      setCollection(collectionData);
+      getCollectionDetails(collectionData);
     } catch (error) {
       console.log(error);
     }
@@ -52,14 +50,13 @@ const Collection = (props) => {
         throw new Error("fetch error");
       }
       const data = await res.json();
-      setWishlist(
-        data.records.filter(
-          (item) =>
-            item.fields.username === props.username &&
-            item.fields.type === "wishlist"
-        )
+      const wishlistData = data.records.filter(
+        (item) =>
+          item.fields.username === props.username &&
+          item.fields.type === "wishlist"
       );
-      console.log(wishlist);
+      setWishlist(wishlistData);
+      getWishlistDetails(wishlistData);
     } catch (error) {
       console.log(error);
     }
@@ -88,16 +85,44 @@ const Collection = (props) => {
   const getData = async (id) => {
     try {
       const res = await fetch(
-        `${import.meta.env.VITE_DISCOGS_API}releases/${id}?USD`
+        `${import.meta.env.VITE_DISCOGS_API}releases/${id}`
       );
       if (!res.ok) {
         throw new Error("fetch error");
       }
-      const data = await res.json();
-      setResults(data);
+      return res.json();
     } catch (err) {
       console.log(err.message);
     }
+  };
+
+  //Parse release ids from Collection and Wishlist into getData
+  const getCollectionDetails = async (data) => {
+    const tempArray = [];
+    for (const item of data) {
+      const details = await getData(item.fields.release_id);
+      //   const collectionFetch = {"id":item.id, "fields": details}
+      const collectionFetch = {};
+      collectionFetch["release_id"] = item.id;
+      collectionFetch["fields"] = details;
+      tempArray.push(collectionFetch);
+    }
+
+    setCollectionInfo(tempArray);
+  };
+
+  const getWishlistDetails = async (data) => {
+    const tempArray = [];
+    for (const item of data) {
+      const details = await getData(item.fields.release_id);
+      //   const wishlistFetch = {"id":item.id, "fields": details}
+      const wishlistFetch = {};
+      wishlistFetch["release_id"] = item.id;
+      wishlistFetch["fields"] = details;
+      tempArray.push(wishlistFetch);
+    }
+
+    setWishlistInfo(tempArray);
   };
 
   useEffect(() => {
@@ -107,69 +132,85 @@ const Collection = (props) => {
 
   return (
     <>
-      {JSON.stringify(collection)}
-      {JSON.stringify(wishlist)}
-      {showUpdate && (
-        <ShowUpdate setPurchasePrice={setPurchasePrice} setNotes={setNotes} />
-      )}
+    {showUpdate && <showUpdate getCollection={getCollection} getWishlist={getWishlist} setShowUpdate={setShowUpdate}/>}
       <div className={styles.collection}>
         <p> Collection </p>
         <table>
           <thead>
             <tr>
-              <th> Artist </th>
-              <th> Title </th>
-              <th> Year </th>
-              <th> Genres </th>
-              <th> Purchase Price </th>
-              <th> Resale Price</th>
-              <th> Notes </th>
-              <th> </th>
-              <th> </th>
-              <th> </th>
+              <th style={{ width: "15%" }}> Artist </th>
+              <th style={{ width: "15%" }}> Title </th>
+              <th style={{ width: "7%" }}> Year </th>
+              <th style={{ width: "15%" }}> Genres </th>
+              <th style={{ width: "7%" }}> Purchase Price (USD) </th>
+              <th style={{ width: "7%" }}> Resale Price (USD) </th>
+              <th style={{ width: "20%" }}> Notes </th>
+              <th style={{ width: "7%" }}> </th>
+              <th style={{ width: "7%" }}> </th>
+              <th style={{ width: "7%" }}> </th>
             </tr>
           </thead>
-          {collection.map((item) => {
-            getData(item.fields.release_id);
-            return (
-              <tr key={item.id}>
-                <td> {results.artists[0].name} </td>
-                <td> {results.title} </td>
-                <td> {results.year} </td>
-                <td> {results.genres.join(', ')} </td>
-                <td> {purchasePrice}</td>
-                <td> {} </td>
-                <td> {notes}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      window.open(`${results.uri}`);
+          <tbody>
+            {collectionInfo.map((item, idx) => {
+              return (
+                <tr key={idx}>
+                  <td> {item.fields.artists[0].name} </td>
+                  <td> {item.fields.title} </td>
+                  <td> {item.fields.year} </td>
+                  <td> {item.fields.genres.join(", ")} </td>
+                  <td>
+                    {() => {
+                      collection.filter((record) =>
+                        record.fields.release_id === item.release_id
+                          ? record.fields.purchase_price
+                          : ""
+                      );
                     }}
-                  >
-                    More Details
-                  </button>
-                </td>
-                <td>
-                  <button
-                    onClick={() => {
-                      setShowUpdate(true);
+                  </td>
+                  <td> {item.fields.lowest_price} </td>
+                  <td>
+                    {() => {
+                      collection.filter((record) =>
+                        record.fields.release_id === item.release_id
+                          ? record.fields.notes
+                          : ""
+                      );
                     }}
-                  >
-                    Update
-                  </button>
-                </td>
-                <td>
-                  <button
-                    onClick={() => {
-                      deleteRecord(item.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+                  </td>
+                  <td>
+                    <button
+                      className={styles.more}
+                      onClick={() => {
+                        window.open(`${item.fields.uri}`);
+                      }}
+                    >
+                      More
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className={styles.update}
+                      onClick={() => {
+                        setShowUpdate(true);
+                      }}
+                    >
+                      Update
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className={styles.delete}
+                      onClick={() => {
+                        deleteRecord(item.release_id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
       <div className={styles.wishlist}>
@@ -177,34 +218,43 @@ const Collection = (props) => {
         <table>
           <thead>
             <tr>
-              <th> Artist </th>
-              <th> Record Title</th>
-              <th> Year </th>
-              <th> Genres </th>
-              <th> Resale Price</th>
-              <th></th>
+              <th style={{ width: "20%" }}> Artist </th>
+              <th style={{ width: "20%" }}> Record Title</th>
+              <th style={{ width: "10%" }}> Year </th>
+              <th style={{ width: "20%" }}> Genres </th>
+              <th style={{ width: "10%" }}> Resale Price (USD)</th>
+              <th style={{ width: "10%" }}></th>
+              <th style={{ width: "10%" }}></th>
             </tr>
           </thead>
-          {wishlist.map((item) => {
-            getData(item.fields.release_id);
-            return (
-              <tr key={item.id}>
-                <td>{results.artists[0].name}</td>
-                <td>{results.title}</td>
-                <td>{results.year}</td>
-                <td>{results.genres.join(', ')}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      deleteRecord(item.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+          <tbody>
+            {wishlistInfo.map((item, idx) => {
+              return (
+                <tr key={idx}>
+                  <td>{item.fields.artists[0].name}</td>
+                  <td>{item.fields.title}</td>
+                  <td>{item.fields.year}</td>
+                  <td>{item.fields.genres.join(", ")}</td>
+                  <td>{item.fields.lowest_price}</td>
+                  <td><button className={styles.more}
+                      onClick={()=>{window.open(`${item.fields.uri}`)}}>
+                      More
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className={styles.delete}
+                      onClick={() => {
+                        deleteRecord(item.release_id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </>

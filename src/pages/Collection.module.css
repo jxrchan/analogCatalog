@@ -1,40 +1,100 @@
 .collection {
-    font-size: 16px;
+    font-size: 12px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 20px auto;
     background-color: #f9f9f9;
+    height: 600px; 
+    overflow-y: scroll;
 }
 
-.collection p {
+.p {
     text-align: center; 
     font-size: 24px; 
 }
 
-.collection table {
-    width: 90%;
-}
-
 
 .wishlist {
-    font-size: 16px;
+    font-size: 12px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 20px auto;
     background-color: #f9f9f9;
+    height: 600px;
+    overflow-y: scroll;
 }
 
-.wishlist table {
-    width: 90%; 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensures columns have equal width */
+  }
+  
+  th, td {
+    padding: 8px;
+    text-align: center;
+    word-wrap: break-word; /* Allows text to wrap within cells */
+  }
 
+  td {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  button {
+    background-color: grey;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .notesCell {
+  }
+  .numberCell {
+
+  }
+  .buttonCell
+  {}
+  
+.more:hover {
+    background-color: blue;
 }
+.update:hover {
+    background-color: #45a049;
+  }
+
+  .delete:hover {
+    background-color: red;
+  }

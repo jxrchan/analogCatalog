@@ -130,7 +130,7 @@ const Main = (props) => {
 
 
   return (
-    <>
+<>
       <div className={styles.form}>
         <label> ARTIST </label>
         <input
@@ -168,7 +168,7 @@ const Main = (props) => {
         </div>
         <button onClick={() => handleSearch()}>SEARCH</button>
       </div>
-      <div className={styles.results}>
+      {results.length !==0 && <div className={styles.results}>
         {results.map((item, idx) => {
           return (
             <>
@@ -216,15 +216,10 @@ const Main = (props) => {
             >
               Next
             </button>
-          )}{" "}
+          )}
         </div>
-        {artist} <br />
-        {title} <br />
-        {JSON.stringify(checked)} <br />
-        {format} <br />
-        {JSON.stringify(results)}
-      </div>
-    </>
+      </div>}
+      </>
   );
 };
 
