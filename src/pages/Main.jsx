@@ -56,6 +56,7 @@ const Main = (props) => {
       if (!res.ok) {
         throw new Error("fetch error");
       }
+      console.log(res);
       const data = await res.json();
       setResults(data.results);
       setLastPage(data.pagination.pages);
@@ -76,15 +77,18 @@ const Main = (props) => {
             Authorization: `Bearer ${import.meta.env.VITE_AIRTABLE_TOKEN}`,
           },
           body: JSON.stringify({
-            fields: {
-              username: props.username,
-              type: "collection",
-              release_id: id.toString(),
-            },
+            records: [
+              {
+                fields: {
+                  username: props.username,
+                  type: "collection",
+                  release_id: id.toString(),
+                },
+              },
+            ],
           }),
         }
       );
-
       console.log(res);
       if (!res.ok) {
         throw new Error("error posting data");
@@ -94,7 +98,6 @@ const Main = (props) => {
     }
   };
 
-  
   //Store Wishlist data into AirTable
 
   const storeWishlist = async (id) => {
@@ -120,6 +123,7 @@ const Main = (props) => {
           }),
         }
       );
+      console.log(res)
       if (!res.ok) {
         throw new Error("error posting data");
       }
@@ -128,11 +132,12 @@ const Main = (props) => {
     }
   };
 
-
   return (
-<>
+    <>
       <div className={styles.form}>
-        <label> <b> ARTIST </b> </label>
+        <label>
+           ARTIST 
+        </label>
         <input
           type="text"
           value={artist}
@@ -140,7 +145,9 @@ const Main = (props) => {
             setArtist(e.target.value);
           }}
         ></input>
-        <label> <b> RECORD TITLE </b> </label>
+        <label>
+        RECORD TITLE 
+        </label>
         <input
           type="text"
           value={title}
@@ -148,7 +155,9 @@ const Main = (props) => {
             setTitle(e.target.value);
           }}
         ></input>
-        <label> <b>FORMATS</b> </label>
+        <label>
+          FORMATS
+        </label>
         <div className={styles["checkboxes"]}>
           {formats.map((item, idx) => {
             return (
@@ -168,57 +177,64 @@ const Main = (props) => {
         </div>
         <button onClick={() => handleSearch()}>SEARCH</button>
       </div>
-      {results.length !==0 && <div className={styles.results}>
-        {results.map((item, idx) => {
-          return (
-            <>
-              <div key={`results-${idx}`} className={styles.resultItem}>
-                <img src={item.cover_image} className={styles.coverImage}></img>
-                <div className={styles.buttons}>
-                  <button
-                    className={styles.button}
-                    onClick={() => storeCollection(item.id)}
-                  >
-                    Add to Collection
-                  </button>
-                  <button
-                    className={styles.button}
-                    onClick={() => storeWishlist(item.id)}
-                  >
-                    Add to Wishlist
-                  </button>
-                </div> 
-                {item.title} <br /> <br/>
-                {item.format.join(', ')} <br/> <br/>
-                <em> Released: {item.year} </em> <br />
-              </div>
-            </>
-          );
-        })} 
-      </div>}
-      <div style={{textAlign: "center", marginBottom: "40px"}}>
-          {page !== 1 && (
-            <a className={styles.link}
-              onClick={() => {
-                setPage((prevState) => prevState - 1);
-                getSearch();
-              }}
-            >
-              Previous
-            </a>
-          )}
-          {results.length > 0 && page !== lastPage && (
-            <a className={styles.link}
-              onClick={() => {
-                setPage((prevState) => prevState + 1);
-                getSearch();
-              }}
-            >
-              Next
-            </a>
-          )}
+      {results.length !== 0 && (
+        <div className={styles.results}>
+          {results.map((item, idx) => {
+            return (
+              <>
+                <div key={`results-${idx}`} className={styles.resultItem}>
+                  <img
+                    src={item.cover_image}
+                    className={styles.coverImage}
+                  ></img>
+                  <div className={styles.buttons}>
+                    <button
+                      className={styles.button}
+                      onClick={() => storeCollection(item.id)}
+                    >
+                      Add to Collection
+                    </button>
+                    <button
+                      className={styles.button}
+                      onClick={() => storeWishlist(item.id)}
+                    >
+                      Add to Wishlist
+                    </button>
+                  </div>
+                  {item.title} <br /> <br />
+                  {item.format.join(", ")} <br /> <br />
+                  <em> Released: {item.year} </em> <br />
+                </div>
+              </>
+            );
+          })}
         </div>
-      </>
+      )}
+      <div style={{ textAlign: "center", marginBottom: "40px" }}>
+        {page !== 1 && (
+          <a
+            className={styles.link}
+            onClick={() => {
+              setPage((prevState) => prevState - 1);
+              getSearch();
+            }}
+          >
+            Previous
+          </a>
+        )}
+        {results.length > 0 && page !== lastPage && (
+          <a
+            className={styles.link}
+            onClick={() => {
+              setPage((prevState) => prevState + 1);
+              getSearch();
+            }}
+          >
+            Next
+          </a>
+        )}
+      </div>
+    </>
   );
 };
 

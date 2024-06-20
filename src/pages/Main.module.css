@@ -8,7 +8,7 @@
   max-width: 1000px;
   margin: 20px auto;
   background-color: #f9f9f9;
-  font-size: 22px;
+  font-size: 26px;
   font-weight: 400;
   font-family: "Rajdhani", sans-serif;
 }
@@ -19,18 +19,22 @@
 }
 
 .form input[type="text"] {
+  font-family: "Ubuntu", sans-serif;
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 20px;
 }
 
 .checkboxes {
+  font-family: "Ubuntu", sans-serif;
   display: flex;
   flex-wrap: wrap;
   overflow-x: auto;
   margin-bottom: 10px;
+  font-size: 20px;
 }
 
 .checkboxes input[type="checkbox"] {
@@ -49,6 +53,8 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 20px;
 }
 
 .form button:hover {
