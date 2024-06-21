@@ -1,7 +1,7 @@
 # ANALOG CATALOG
 
 
-<img src = "images/App-logo.png" width= "400px" height="400px"/>
+<img src = "./images/App-logo.png" width= "400px" height="400px"/>
 
 ANALOG CATALOG (although I would have preferred "Analogue Catalogue" because British Enlgish) is targeted at record enthusiasts looking to catalogue and value their vinyl collections. The application was designed in React.js and completed as a professional course project. It uses the open-source Discogs© webAPI, fetching data from Discog's database and marketplace to present consolidated information about your records.
 
