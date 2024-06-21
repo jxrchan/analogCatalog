@@ -9,7 +9,7 @@ const About = () => {
       <img src='../../images/Discogs_logo_black.svg' alt="Discogs logo" />
       
       <p>
-        Analog Catalog is targeted at record enthusiasts
+        <span style={{fontFamily: "Rajdhani", textTransform: "uppercase", fontSize: "30px"}}> Analog Catalog </span> is targeted at record enthusiasts
         looking to catalogue and value their vinyl collections. The application
         was designed in React.js and completed as a professional course project.
         It uses the open-source Discogs© webAPI, fetching data from Discog's
